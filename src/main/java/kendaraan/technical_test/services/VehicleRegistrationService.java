@@ -4,8 +4,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import kendaraan.technical_test.exceptions.DuplicateRegistrationException;
 import kendaraan.technical_test.models.VehicleRegistration;
 import kendaraan.technical_test.repositories.VehicleRegistrationRepository;
 
@@ -24,7 +26,11 @@ public class VehicleRegistrationService {
     }
 
     public VehicleRegistration save(VehicleRegistration vehicleRegistration) {
-        return repository.save(vehicleRegistration);
+        try {
+            return repository.save(vehicleRegistration);
+        } catch (DataIntegrityViolationException e) {
+            throw new DuplicateRegistrationException("Nomor registrasi kendaraan sudah ada");
+        }
     }
 
     public void deleteById(String id) {

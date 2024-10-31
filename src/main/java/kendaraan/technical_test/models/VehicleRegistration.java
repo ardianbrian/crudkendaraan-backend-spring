@@ -1,9 +1,11 @@
 package kendaraan.technical_test.models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -14,6 +16,7 @@ import kendaraan.technical_test.enums.VechileColor;
 import lombok.Data;
 
 @Entity
+@Table(name = "vehicle_registration")
 @Data
 public class VehicleRegistration {
     
@@ -21,7 +24,8 @@ public class VehicleRegistration {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Nomor registrasi kendaraan tidak boleh koosng")
+    @NotBlank(message = "Nomor registrasi kendaraan tidak boleh kosong")
+    @Column(unique = true, nullable = false)
     private String nomorRegistrasiKendaraan;
 
     @NotBlank(message = "Nama pemilki tidak boleh kosong")
